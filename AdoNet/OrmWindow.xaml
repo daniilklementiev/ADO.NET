@@ -111,6 +111,9 @@
                         <GridViewColumn
                             Header="По-батькові"
                             DisplayMemberBinding="{Binding Path=Secname}"/>
+                        <GridViewColumn
+                            Header="Fired"
+                            DisplayMemberBinding="{Binding Path=FiredDt}"/>
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>

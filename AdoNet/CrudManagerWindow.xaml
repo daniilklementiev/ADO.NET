@@ -97,6 +97,10 @@
                     Padding="5 3" FontSize="15" Click="DeleteButton_Click"/>
             <Button x:Name="CancelButton" Content="Закрити" Margin="20 10"
                     Padding="5 3" FontSize="15" Click="CancelButton_Click"/>
+            <Button x:Name="RemoveSecDepBtn" Content="Прибрати другий відділ" Margin="20 10"
+                    Padding="5 3" FontSize="15" Click="RemoveSecDepButton_Click"/>
+            <Button x:Name="RemoveChiefBtn" Content="Прибрати шефа" Margin="20 10"
+                    Padding="5 3" FontSize="15" Click="RemoveChiefButton_Click"/>
         </UniformGrid>
     </StackPanel>
 </Window>

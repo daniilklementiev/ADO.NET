@@ -73,7 +73,7 @@ namespace AdoNet
                 #endregion
 
                 #region Load Managers
-                cmd.CommandText = "SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_Dep, M.Id_sec_dep, M.Id_chief FROM Managers M";
+                cmd.CommandText = "SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_Dep, M.Id_sec_dep, M.Id_chief, M.FiredDt FROM Managers M";
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -90,8 +90,11 @@ namespace AdoNet
                                         : reader.GetGuid(5),
                             Id_chief = reader.IsDBNull(6)
                                         ? null
-                                        : reader.GetGuid(6)
-                        });
+                                        : reader.GetGuid(6),
+                            FiredDt = reader.IsDBNull(7)
+                                        ? null
+                                        : reader.GetDateTime(7)
+                });
                 }
                 reader.Close();
                 #endregion
@@ -148,6 +151,9 @@ namespace AdoNet
                 }
             }
         }
+
+        
+
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
             CrudDepartmentWindow dialog = new(null!);
