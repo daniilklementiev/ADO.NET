@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdoNet.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,13 +14,7 @@ namespace AdoNet
     /// </summary>
     public partial class App : Application
     {
-        public static string host = "sql8.freesqldatabase.com"; // Имя хоста
-        public static string database = "sql8594892"; // Имя базы данных
-        public static string user = "sql8594892"; // Имя пользователя
-        public static string password = "MKIgR3u8MQ"; // Пароль пользователя
-
-
         public static readonly string ConnectionString = "server=us-east.connect.psdb.cloud;user=vw3ad7aefas2b0b61pnn;database=adonetdb;port=3306;password=pscale_pw_FErHLZrXaihAdFh81Qp5iOdlaU3aDpbDHiuVaiLSMlA;SslMode=VerifyFull";
-        public static readonly string Connect = "Database=" + database + ";Datasource=" + host + ";User=" + user + ";Password=" + password + ";CharSet = utf8";
+        internal static readonly ILogger Logger = new FileLogger();
     }
 }

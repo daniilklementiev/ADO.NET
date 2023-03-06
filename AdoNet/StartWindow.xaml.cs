@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,19 @@ namespace AdoNet
         {
             this.Hide();
             new OrmWindow().ShowDialog();
+            this.Show();
+        }
+        private void DalButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new DalWindow().ShowDialog();
+            this.Show();
+        }
+
+        private void EfButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            //new EfWindow().ShowDialog();
             this.Show();
         }
     }
