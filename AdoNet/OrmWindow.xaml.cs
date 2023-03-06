@@ -94,7 +94,7 @@ namespace AdoNet
                             FiredDt = reader.IsDBNull(7)
                                         ? null
                                         : reader.GetDateTime(7)
-                });
+                        });
                 }
                 reader.Close();
                 #endregion
@@ -152,7 +152,7 @@ namespace AdoNet
             }
         }
 
-        
+
 
         private void AddDepartmentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -254,17 +254,67 @@ namespace AdoNet
         }
         private void SalesItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
             if (sender is ListViewItem item)
             {
                 if (item.Content is Entity.Sale sale)
                 {
-                    //CrudManagerWindow dialog = new(manager) { Owner = this };
-                    //if (dialog.ShowDialog() == true)
-                    //{
-                    //
-                    //}
+                    CrudSaleWindow dialog = new(sale) { Owner = this };
+                    if (dialog.ShowDialog() == true)  // подтвержденное действие
+                    {
+                        if (dialog.Sale == null)  // Удаление
+                        {
+                            String sql = "UPDATE Sales S SET delete_dt = CURRENT_TIMESTAMP WHERE S.Id = @id";
+                            using MySqlCommand cmd = new(sql, _connection);
+                            cmd.Parameters.AddWithValue("@id", sale.Id);
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Delete OK");
+                                this.Sales.Remove(sale);
+                            }
+                            catch (MySqlException ex)
+                            {
+                                MessageBox.Show(
+                                    ex.Message,
+                                    "Delete error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Stop);
+                            }
+                            cmd.Dispose();
 
-                    // MessageBox.Show(manager.Surname);
+                        }
+                        else 
+                        {
+                            String sql = "UPDATE Sales S SET product_id = @product_id, manager_id = @manager_id, units = @units WHERE S.id = @id;";
+                            using MySqlCommand cmd = new(sql, _connection);
+                            cmd.Parameters.AddWithValue("@id", dialog.Sale.Id);
+                            cmd.Parameters.AddWithValue("@product_id", dialog.Sale.ProductId);
+                            cmd.Parameters.AddWithValue("@manager_id", dialog.Sale.ManagerId);
+                            cmd.Parameters.AddWithValue("@units", dialog.Sale.Cnt);
+                            try
+                            {
+                                int index = this.Sales.IndexOf(sale);
+                                this.Sales.Remove(sale);
+                                this.Sales.Insert(index, sale);
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("Update OK");
+                            }
+                            catch (MySqlException ex)
+                            {
+                                MessageBox.Show(
+                                    ex.Message,
+                                    "Update error",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Stop);
+                            }
+                            cmd.Dispose();
+                        }
+                    }
+                    else  // окно закрыто или нажата кнопка Cancel
+                    {
+                        MessageBox.Show("Действие отменено");
+                    }
                 }
             }
         }
@@ -276,15 +326,15 @@ namespace AdoNet
             if (dialog.ShowDialog() == true && dialog.Sale is not null)
             {
                 using MySqlCommand cmd = new(
-                    "INSERT INTO Sales(Id, ProductId, ManagerId, Cnt, SaleDt) " +
-                    "VALUES (@Id, @ProductId, @ManagerId, @Count, @SaleDt)",
+                    "INSERT INTO Sales(Id, product_id, manager_id, units, sale_date) " +
+                    "VALUES (@Id, @product_id, @manager_id, @units, @sale_date)",
                     _connection);
 
                 cmd.Parameters.AddWithValue("@Id", dialog.Sale.Id);
-                cmd.Parameters.AddWithValue("@ProductId", dialog.Sale.ProductId);
-                cmd.Parameters.AddWithValue("@ManagerId", dialog.Sale.ManagerId);
-                cmd.Parameters.AddWithValue("@Count", dialog.Sale.Cnt);
-                cmd.Parameters.AddWithValue("@SaleDt", dialog.Sale.SaleDt);
+                cmd.Parameters.AddWithValue("@product_id", dialog.Sale.ProductId);
+                cmd.Parameters.AddWithValue("@manager_id", dialog.Sale.ManagerId);
+                cmd.Parameters.AddWithValue("@units", dialog.Sale.Cnt);
+                cmd.Parameters.AddWithValue("@sale_date", dialog.Sale.SaleDt);
 
                 try
                 {

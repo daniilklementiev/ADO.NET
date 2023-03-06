@@ -30,7 +30,7 @@ namespace AdoNet.Entity
             ManagerId = reader.GetGuid("manager_id");
             Cnt = reader.GetInt32("units");
             SaleDt = Convert.ToDateTime(reader["sale_date"]);
-            DeleteDt = reader.IsDBNull("DeleteDt") ? null : reader.GetDateTime("DeleteDt");
+            DeleteDt = reader.IsDBNull("delete_dt") ? null : reader.GetDateTime("delete_dt");
         }
     }
 }

@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <ComboBox x:Name="ProductCombobox" ItemsSource="{Binding Products}"
-                     Grid.Column="0" FontSize="16" Margin="0 7 0 2">
+                     Grid.Column="0" FontSize="16" Margin="0 7 0 2" SelectionChanged="ProductCombobox_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -59,14 +59,15 @@
                    Grid.Column="1"
                    FontSize="16" Margin="5"/>
                 <TextBox x:Name="ViewCnt" Grid.Column="2"
-                     FontSize="16" Margin="0 7 0 2"/>
+                     FontSize="16" Margin="0 7 0 2" TextChanged="ViewCnt_TextChanged"/>
             </Grid>
 
             <Label Content="Продавець:" HorizontalAlignment="Right"
                    Grid.Column="0" Grid.Row="3"
                    FontSize="16" Margin="5"/>
             <ComboBox x:Name="ManagerCombobox" ItemsSource="{Binding Managers}"
-                     Grid.Column="1" Grid.Row="3" FontSize="16" Margin="0 7 0 2">
+                     Grid.Column="1" Grid.Row="3" FontSize="16" Margin="0 7 0 2"
+                      SelectionChanged="ManagerCombobox_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
